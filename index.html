@@ -3,10 +3,10 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-		<meta name="description" content="Presentation Title"> <!-- TODO: Fill in title -->
-		<meta name="author" content="Full Name"> <!-- TODO: Fill in name -->
+		<meta name="description" content="HTTP and Security">
+		<meta name="author" content="Christopher Baines">
 
-		<title>Presentation Title</title> <!-- TODO: Fill in title -->
+		<title>HTTP and Security</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/government-digital-service.css" id="theme">
@@ -26,74 +26,1154 @@
 								 data-background-image="images/cabinet-office-logo.png"
 								 data-background-repeat="no-repeat"
 								 data-background-size="auto auto"
-								 data-background-position="1.8em 3.2em">
-					<p><strong>Full Name</strong></p>
+								 data-background-position="1.8em 3.2em"
+				>
+					<p><strong>Christopher Baines</strong></p>
 					<p>Government Digital Service</p>
-
-					<aside class="notes">
-						This is a title slide.
-					</aside>
 				</section>
 
 				<section class="heading" data-background-color="#0076c0">
-					<h1>This is a main heading</h1>
+					<h1>HTTP and Security</h1>
 
 					<aside class="notes">
-						This slide format is for headings or section breaks.
-					</aside>
-				</section>
+						<dl>
+							<dt>HyperText Transfer Protocol</dt>
+							<dd>
+								High level protocol that web browsers and web
+								applications use to communicate.
+							</dd>
+							<dt>Security</dt>
+							<dd>
+								In this context, this means secrecy, authenticity and
+								integrity.
+							</dd>
+						</dl>
 
-				<section class="heading"
-								 data-background-image="images/image_heading_slide_background.jpg">
-					<h1>This is a main heading</h1>
-
-					<aside class="notes">
-						This slide format is for headings or section breaks with an image.
+						<p>
+							All three of these security criteria are important,
+							taking GOV.UK as an example:
+						</p>
+						<ul>
+							<li>
+								A lack of secrecy could mean that others on the
+								network could see what pages you are viewing.
+							</li>
+							<li>
+								A lack of authenticity could mean that you are not
+								actually looking at GOV.UK, but something pretending
+								to be.
+							</li>
+							<li>
+								A lack of integrity could mean that you are talking to
+								GOV.UK, but the information you are seeing has been
+								altered, and is not what was originally sent by the
+								server.
+							</li>
+						</ul>
 					</aside>
 				</section>
 
 				<section>
+					<ul>
+						<li>How does HTTPS fit together
+							<ul>
+								<li>Where does it fit in</li>
+								<li>The handshake</li>
+							</ul>
+						</li>
+						<li>Security
+							<ul>
+								<li>
+									Integrity
+								</li>
+								<li>
+									Secrecy
+								</li>
+								<li>
+									Authenticity
+								</li>
+							</ul>
+						</li>
+						<li>
+							The future, TLS 1.3
+						</li>
+					</ul>
+
+					<aside class="notes">
+						<p>
+							As an overview, I'm going to try and cover how HTTPS fits together
+						</p>
+						<p>
+							Where does it fit in to other protocols.
+						</p>
+						<p>
+							What is the handshake, and how does it work.
+						</p>
+						<p>
+							Then, I'll cover the breakdown of security, with an
+							emphasis on secrecy and the handshake.
+						</p>
+						<p>
+							After that, if we have time, I also have some content on
+							TLS 1.3
+						</p>
+					</aside>
+				</section>
+
+				<section>
+					<h1>Protocols involved</h1>
+
+					<table>
+						<tr><td align="center">HTTP (HyperText Transport Protocol)</td></tr>
+						<tr><td align="center">
+							<strong>TLS (Transport Layer Security)</strong>
+						</td></tr>
+						<tr><td align="center">TCP (Transmission Control Protocol)</td></tr>
+						<tr><td align="center">IP (the Internet Protocol)</td></tr>
+						<tr><td align="center">
+								IEEE 802.3 (Ethernet) / IEEE 802.11 (Wi-Fi) / ...
+						</td></tr>
+					</table>
+
+					<aside class="notes">
+						<p>
+							There are a few ways of getting the integrity, secrecy
+							and authenticity security properties for HTTP traffic,
+							but today I'm going to discuss a protocol called
+							transport layer security, abbreviated to TLS.
+						</p>
+
+						<p>
+							When using TLS, HTTP sits transparently on top.
+						</p>
+
+						<p>
+							TLS is normally used on top of some reliable transport
+							protocol, and in the case of the web, this is TCP.
+						</p>
+					</aside>
+				</section>
+
+				<section>
+					<h1>Transport Layer Security (TLS)</h1>
+
+					<ul>
+						<li>Evolution of the SSL protocol</li>
+						<li>Several versions exist:
+							<ul>
+								<li>SSL 1.0 (never released)</li>
+								<li>SSL 2.0 (released in 1995)</li>
+								<li>SSL 3.0 (released in 1996)</li>
+								<li>TLS 1.0 (standardised in 1999)</li>
+								<li>TLS 1.1 (standardised in 2006)</li>
+								<li>TLS 1.2 (standardised in 2008)</li>
+								<li>TLS 1.3 (draft)</li>
+							</ul>
+						</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>
+								TLS is a evolution of a older protocol called SSL,
+								however the name SSL has still stuck around.
+							</li>
+							<li>
+								There have been a few versions of TLS, and while
+								version 1.3 is still in draft, some browsers for
+								example Firefox have support for it by default.
+							</li>
+						</ul>
+
+						<p>
+							Sources:
+						</p>
+						<ol>
+							<li>
+								<a href="https://blog.cloudflare.com/tls-1-3-explained-by-the-cloudflare-crypto-team-at-33c3/">
+									https://blog.cloudflare.com/tls-1-3-explained-by-the-cloudflare-crypto-team-at-33c3/
+								</a>
+							</li>
+							<li>
+								<a href="https://hpbn.co/transport-layer-security-tls/">
+									https://hpbn.co/transport-layer-security-tls/
+								</a>
+							</li>
+							<li>
+								<a href="https://tools.ietf.org/html/rfc2246">
+									https://tools.ietf.org/html/rfc2246
+								</a>
+							</li>
+						</ol>
+					</aside>
+				</section>
+
+				<section class="heading" data-background-color="#0076c0">
+					<h1>The Handshake</h1>
+
+					<aside class="notes">
+						<p>
+							The handshake is how the TLS connection is
+							established. It is how you go from an insecure
+							connection, to a secure connection.
+						</p>
+					</aside>
+				</section>
+
+				<section>
+					<h3>TLS 1.2 Full Handshake</h3>
+					<pre style="border-left: 0;">
+Client                                               Server
+
+<span class="fragment fade-down">ClientHello                  --------&gt;</span>
+                                                <span class="fragment fade-down">ServerHello
+                                               Certificate*
+                                         ServerKeyExchange*
+                                        CertificateRequest*
+                             &lt;--------        ServerHelloDone</span>
+<span class="fragment fade-down">Certificate*
+ClientKeyExchange
+CertificateVerify*
+[ChangeCipherSpec]
+Finished                     --------&gt;</span>
+                                         <span class="fragment fade-down">[ChangeCipherSpec]
+                             &lt;--------               Finished</span>
+<span class="fragment fade-down">Application Data             &lt;-------&gt;       Application Data</span>
+
+* Indicates optional or situation-dependent messages that
+  are not always sent.</pre>
+
+					<a style="float: right;"
+						 href="https://tools.ietf.org/html/rfc5246#page-36">
+						RFC 5246
+					</a>
+
+					<aside class="notes">
+						<p>
+							This diagram shows the communication between a client and
+							a server over TLS 1.2.
+						</p>
+
+						<p>
+							The client first tells the server what cipher suites it
+							supports.
+						</p>
+
+						<p>
+							Then the server replies with the chosen cipher suite, a
+							key share, a certificate and a signature.
+						</p>
+
+						<p>
+							The client then then sends its key share and the
+							finished message.
+						</p>
+
+						<p>
+							The server then responds with a finished message as
+							well
+						</p>
+
+						<p>
+							Then the HTTP request can be made by the client.
+						</p>
+
+						Source:
+						<a href="https://tools.ietf.org/html/rfc5246#page-36">
+							https://tools.ietf.org/html/rfc5246#page-36
+						</a>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Cipher Suites</h2>
+
+					This is the initial state of the TLS connection:
+					<pre>TLS_NULL_WITH_NULL_NULL</pre>
+
+					This is an example of a modern cipher suite:
+					<pre>TLS_ECDHE_WITH_AES_128_GCM_SHA256</pre>
+					<dl>
+						<dt>ECDHE</dt>
+						<dd>Eliptic Curve Diffie Hellman Ephemeral</dd>
+						<dt>AES 128 GCM</dt>
+						<dd>
+							Advanced Encryption Standard with 128 bit blocks using
+							Galois/Counter Mode
+						</dd>
+						<dt>SHA256</dt>
+						<dd>Secure Hash Algorithm with a digest of 256 bits</dd>
+					</dl>
+
+					<aside class="notes">
+						<p>
+							A cipher suites sets out the what cryptographic
+							techniques to use for a connection, and some parameters
+							that they may have
+						</p>
+					</aside>
+				</section>
+
+				<section>
+					<h1>TLS Session Resumption</h1>
+
+					<ul>
+						<li>Important to consider when looking at speed and security</li>
+						<li>
+							Two modes:
+							<ul>
+								<li>Session IDs (data stored client-side and server-side)</li>
+								<li>Session Tickets (data stored client-side)</li>
+							</ul>
+						</li>
+					</ul>
+
+					<aside class="notes">
+						<p>
+							With session ids, the cryptographic data about the
+							connection is stored on both the client and the server.
+						</p>
+
+						<p>
+							The client sends the session id during the handshake,
+							and if the server supports re-establishing sessions, and
+							remembers the details of the session identified by the
+							session id, it will reply with a server hello message
+							with the same session id value.
+						</p>
+
+						<p>
+							If the server does not remember the details of the
+							session, the full handshake continues as normal.
+						</p>
+
+						<p>
+							Session resumption with session ids can be tricky to
+							setup, if you are using multiple machines to handle TLS
+							connections, to get the most benefit, the session data
+							needs to be available from all of the machines,
+							otherwise clients connecting might not connect again to
+							the same machine that they previously talked to, and to
+							a different one that does not hold the data corresponding
+							with the session id.
+						</p>
+
+						<p>
+							With session tickets, the server does not need to store
+							the data for the connection, as this is what the ticket
+							contains. When the server generates the ticket, it
+							encrypts it with a key that only it knows.
+						</p>
+
+						<p>
+							This poses similar problems to session ticket ids. While
+							the server does not need to store all the session
+							information, but just the key, that key needs to be
+							shared between any server that handles those session
+							tickets.
+						</p>
+
+						<p>
+							The session tickets also pose a problem for forward
+							secrecy, as if you were able to acquire the session
+							ticket key, you could decrypt the session tickets for
+							past connections, and decrypt the traffic.
+						</p>
+
+						<p>
+							Because of this, it's important to rotate the session
+							ticket key.
+						</p>
+
+						<p>
+							Sources:
+						</p>
+						<ol>
+							<li>
+								<a href="https://tools.ietf.org/html/rfc5077">
+									https://tools.ietf.org/html/rfc5077
+								</a>
+							</li>
+							<li>
+								<a href="https://blog.cloudflare.com/tls-session-resumption-full-speed-and-secure/">
+									https://blog.cloudflare.com/tls-session-resumption-full-speed-and-secure/
+								</a>
+							</li>
+							<li>
+								<a href="https://blog.twitter.com/2013/forward-secrecy-at-twitter-0">
+									https://blog.twitter.com/2013/forward-secrecy-at-twitter-0
+								</a>
+							</li>
+						</ol>
+					</aside>
+				</section>
+
+				<section>
+					<h3>TLS 1.2 with session resumption</h3>
+					<pre style="border-left: 0;">
+Client                                                Server
+
+<span class="fragment fade-down">ClientHello                   --------&gt;</span>
+                                                 <span class="fragment fade-down">ServerHello
+                                          [ChangeCipherSpec]
+                              &lt;--------             Finished</span>
+<span class="fragment fade-down">[ChangeCipherSpec]
+Finished                      --------&gt;</span>
+<span class="fragment fade-down">Application Data              &lt;-------&gt;     Application Data</span>
+					</pre>
+
+					<a style="float: right;"
+						 href="https://tools.ietf.org/html/rfc5246#page-37">
+						RFC 5246
+					</a>
+
+					<aside class="notes">
+
+					</aside>
+				</section>
+
+				<section class="heading" data-background-color="#0076c0">
+					<h1>Integrity</h1>
+				</section>
+
+				<section>
+					<h2>Methods used to provide integrity</h2>
+					<dl>
+						<dt>Digital Signatures</dt>
+						<dd>
+							Use public key cryptography to produce signatures that
+							can be authenticated, and that are difficult to forge.
+						</dd>
+						<dt>Authenticated Encryption with Associated Data (AEAD)</dt>
+						<dd>
+							These provide secrecy as expected from a cipher, but
+							in a way that also provides integrity and
+							authenticity.
+						</dd>
+						<dt>Message Authentication Codes</dt>
+						<dd>
+							One way hash function computed from a message and
+							secret data. It must be difficult to forge.
+						</dd>
+					</dl>
+
+					<aside class="notes">
+						Integrity is a little bit complicated, as there are
+						different measures used depending on the cipher suite, and
+						over different parts of the handshake and application
+						data.
+					</aside>
+				</section>
+
+				<section class="heading" data-background-color="#0076c0">
+					<h1>Secrecy</h1>
+				</section>
+
+				<section>
+					<h2>Security of application data in TLS</h2>
+
+					<ul>
+						<li>
+							For secrecy, the data sent over TLS is encrypted with a
+							semetric cipher, e.g. AES.
+						</li>
+						<li>
+							This is only secure if somehow the client and the server
+							can agree on a key to use, without anyone else finding
+							out.
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Using RSA for the key exchange</h2>
+
+					<dl>
+						<dt>RSA</dt>
+						<dd>
+							Public key cryptosystem, first published by Ron <strong>R</strong>ivest, Adi <strong>S</strong>hamir,
+							and Leonard <strong>A</strong>dleman.
+						</dd>
+					</dl>
+
+					<br>
+					<br>
+					<ul>
+						<li>
+							The client generates a random value to be used as the key.
+						</li>
+						<li>
+							The client then encrypts this value with the server public
+							key, and sends it to the server.
+						</li>
+						<li>
+							The server then decrypts the value, and uses it in the
+							connection.
+						</li>
+					</ul>
+
+					<aside class="notes">
+						<p>
+							The client generates a random value to be used as the
+							key.
+						</p>
+
+						<p>
+							The client then encrypts this value with the server
+							public key, and sends it to the server.
+						</p>
+
+						<p>
+							The server then decrypts the value, and uses it in the
+							connection.
+						</p>
+
+						<p>
+							Using RSA for the key exchange works, but it lacks a
+							property called forward secrecy.
+						</p>
+					</aside>
+				</section>
+
+				<section>
+					<h1>Forward Secrecy</h1>
+
+					<blockquote>
+						A protocol is said to have perfect forward secrecy if
+						compromise of long-term keys does not compromise past
+						session keys.
+					</blockquote>
+
+					<aside class="notes">
+						<ul>
+							<li>
+								As the above definition says, a protocol is said to
+								have forward secrecy if a comprimise of the long-term
+								keys does not comprimise past session keys
+							</li>
+							<li>
+								In the context of using RSA for the key exchange, the
+								long-term session key is the servers public-private
+								keypair, and the session keys are the secret values
+								that the clients encrypts to be used as the key for
+								the semetric cipher.
+							</li>
+							<li>
+								With using RSA for the key exchange, anyone with
+								access to the private part of the servers keypair can
+								decrypt the encrypted session keys sent from the
+								server to the client.
+							</li>
+							<li>
+								This would work, even if you acquire the private key
+								long after the exchange took place. For example, if
+								you record all the traffic to and from a server, you
+								could then later acquire the private key, decrypt all
+								the session keys, and then using them, decrypt all the
+								traffic.
+							</li>
+							<li>
+								Now, this isn't really bad, and it doesn't mean the
+								system is broken, but in the case of TLS, it's not a
+								comprimise that you have to make. Providing the server
+								and client support the right ciphersuites, you can get
+								forward secrecy.
+						</ul>
+
+						<p>
+							Sources:
+						</p>
+						<ol>
+							<li>
+								<a href="https://www.eff.org/deeplinks/2013/08/pushing-perfect-forward-secrecy-important-web-privacy-protection">
+									https://www.eff.org/deeplinks/2013/08/pushing-perfect-forward-secrecy-important-web-privacy-protection
+								</a>
+							</li>
+						</ol>
+					</aside>
+				</section>
+
+				<section>
+					<h1>Diffie Hellman</h1>
+
+					<ul>
+						<li>Public key distribution system</li>
+						<li>
+							It has come to be known by those who first published it,
+							Whitfield Diffie and Martin Hellman.
+						</li>
+					</ul>
+
+					<aside class="notes">
+						<p>
+							To set the scene a bit, all the public key
+							cryptography on the internet relies one or more of
+							just 3 mathematical problems, factoring integers into
+							primes, which is what RSA relies on, discrete log
+							modulo primes, and discrete log in elliptic curve
+							groups.
+						</p>
+
+						<p>
+							We are now going to look at these last two, discrete
+							log modulo primes, and discrete log in eliptic curve
+							groups.
+						</p>
+
+						<p>
+							Diffie Hellman is an example of a public key
+							distribution system, which is different from a public
+							key cryptosystem.
+						</p>
+
+						<p>
+							It is named after those who published the paper
+							describing this new approach, Whitfield Diffie and
+							Martin Hellman.
+						</p>
+
+						<p>
+							When using Diffie-Hellman, two parties send messages
+							back and forth until they have computed a shared
+							key. Any third parties monitoring this communication
+							must find it infeasible to also compute the key.
+						</p>
+
+						<p>
+							This is a perfect solution to the problems with using
+							RSA for the TLS key exchange with respect to forward
+							secrecy, as with diffie hellman, there is no long term
+							key.
+						</p>
+
+						Sources:
+						<ol>
+							<li>
+								<a href="https://blog.cloudflare.com/padding-oracles-and-the-decline-of-cbc-mode-ciphersuites/">
+									https://blog.cloudflare.com/padding-oracles-and-the-decline-of-cbc-mode-ciphersuites/
+								</a>
+							</li>
+							<li>
+								<a href="https://media.ccc.de/v/30C3_-_5339_-_en_-_saal_1_-_201312281830_-_the_year_in_crypto_-_nadia_heninger_-_djb_-_tanja_lange">
+									https://media.ccc.de/v/30C3_-_5339_-_en_-_saal_1_-_201312281830_-_the_year_in_crypto_-_nadia_heninger_-_djb_-_tanja_lange
+								</a>
+							</li>
+						</ol>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Modular Arithmetic</h3>
+
+					\[(4 + 4) \bmod 5 = 3\]
+
+					<pre>
+                *
+0 1 2 3 4 5 6 7 8 9 10
+0 1 2 3 4 0 1 2 3 0 1</pre>
+
+					<span class="fragment">
+					\[(2 * 3) \bmod 5 = 1\]
+
+					<pre>
+            *
+0 1 2 3 4 5 6 7 8 9 10
+0 1 2 3 4 0 1 0 1 2 3</pre>
+					</span>
+
+					<aside class="notes">
+						<p>
+							Diffie Hellman relies on the difficulty of computing
+							logarithms over a finite field with a prime number of
+							elements.
+						</p>
+
+						<p>
+							You might know of computations over a finite field as
+							modular arithmatic.
+						</p>
+
+						<p>
+							So, here is a really quick guide to modular arithmatic.
+						</p>
+
+						<p>
+							Instead of an infinite number line, you perform the
+							operations over a "finite field".
+						</p>
+
+						<p>
+							In the above examples, to calculate the modulus, you can
+							do the calculation normally, e.g. \(4 + 4 = 8\), then
+							divide the result by the size of the field e.g. \(5\)
+							and note the remainder, \(8\) divided by \(5\) is \(1\)
+							remainder \(3\), so \((4 + 4) \bmod 5 = 3\).
+						</p>
+					</aside>
+				</section>
+
+				<section>
+					Alice and bob agree to use a modulus \(p = 23\) and base \(g = 5\).<br><br>
+
+					<span class="fragment">
+						Alice chooses a secret integer \(a = 6\)
+					</span><br>
+					<span class="fragment">
+						Alice then computes the public integer \(A = g^a \bmod p\)<br>
+						\(\implies\) \(5^6 \bmod 23 = 8\)
+					</span>
+					<br><br>
+					<span class="fragment">
+						Bob chooses a secret integer \(b = 15\)
+					</span><br>
+					<span class="fragment">
+						Bob then computes the public integer \(B = g^b \bmod p\)<br>
+						\(\implies\) \(5^{15} \bmod 23 = 19\)
+					</span>
+					<br><br>
+					<span class="fragment">
+						Alice and Bob share their public integers \(A\) and \(B\)
+					</span>
+					<br><br>
+					<span class="fragment">
+						Alice then computes the shared secret \(s = B^a \bmod p = 19^6
+						\bmod 23 = 2\)
+					</span><br>
+					<span class="fragment">
+						Bob then computes the shared secret \(s = A^b \bmod p =
+						8^{15} \bmod 23 = 2\)
+					</span>
+
+					<aside class="notes">
+						Diffie Hellman doesn't use addition or multiplication, it
+						uses exponentiation.
+
+						Here is how you do a Diffie Hellman key exchange.
+
+						https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange#Cryptographic_explanation
+
+					</aside>
+				</section>
+
+				<section>
+					When Alice computes the shared secret \(s\)<br><br>
+
+					\(s = B^a \bmod p\)<br>
+
+					\(B = g^b \bmod p\)<br><br>
+
+					substituting
+
+					\(s = (g^b \bmod p)^a \bmod p\)<br><br>
+
+					This can be simplified to:<br><br>
+
+					\(s = g^{ab} \bmod p\)
+
+					<aside class="notes">
+						<p>
+							You might get a better idea of how this works by
+							substituting some equations together.
+						</p>
+				</section>
+
+				<section>
+					<h2>Cracking Diffie Hellman</h2>
+
+					<br>
 					<p>
-						This is a text slide
+					\(b = log_g B \bmod p\)
 					</p>
+					\(s = A^b \bmod p\)
+					<br><br>
+
+					<table>
+						<tr>
+							<th>Guess at b (Bobs secret, which is 15)</th>
+							<th>Calculation</th>
+						</tr>
+						<tr>
+							<td>\(guess\)</td>
+							<td>\(A^{guess} \bmod p = ...\)</td>
+						</tr>
+						<tr>
+							<td>\(2\)</td>
+							<td>\(8^2 \bmod 23 = 18\)</td>
+						</tr>
+						<tr>
+							<td>\(3\)</td>
+							<td>\(8^3 \bmod 23 = 6\)</td>
+						</tr>
+						<tr>
+							<td>\(4\)</td>
+							<td>\(8^4 \bmod 23 = 2\)</td>
+						</tr>
+						<tr>
+							<td>\(5\)</td>
+							<td>\(8^5 \bmod 23 = 16\)</td>
+						</tr>
+						<tr>
+							<td colspan=3>...</td>
+						</tr>
+					</table>
 
 					<aside class="notes">
-						This should be what most of your slides look like
+						<p>
+							Eve the attacker has \(A\) \((8)\) and \(B\) \((15)\),
+							as well as the modulus \(p = 23\) and base \(g = 5\),
+							but to compute the shared secret, they must perform a
+							difficult computation, for example \(s = A^{(log_g B)}
+							\bmod p\).
+						</p>
+
+						<p>
+							\(log_g B \bmod p\) would give the value of \(b\), as
+							\(B = g^b \bmod p\).
+						</p>
+
+						<p>
+							For comparison, an easy logarithm problem is
+							\(log_2(8)\), which can be read as how many 2's do you
+							need to multiply together to get 8, \(2 * 2 * 2\) is 8,
+							so the answer is 3.
+						</p>
+
+						<p>
+							But with \(log_5(19) \bmod 23\).
+						</p>
 					</aside>
 				</section>
 
-				<section class="heading"
-								 data-background-image="images/image_slide_background.jpg">
+				<section>
+					<h1>Back to ciphersuites... and Eliptic Curve Diffie Hellman</h1>
+
+					<ul>
+						<li>
+							You probably won't use Diffie Hellman in its original
+							form.
+						</li>
+						<li>The approach generalises to finite cyclic groups.</li>
+						<li>
+							A preferred form is using eliptic curve groups, rather
+							than a group of multiplicative group of integers modulo
+							n.
+						</li>
+					</ul>
+
 					<aside class="notes">
-						Pictures should be full bleed, with no footer.
+						<p>
+							You probably won't be using diffie hellman in the way
+							described previously when your browsing the web over
+							TLS·
+						</p>
+
+						<p>
+							A preferred approach is to use diffie hellman, but with
+							an eliptic curve group. For equivalent security, DHE
+							requires significantly more compute resource than using
+							RSA for the key exchange, whereas using ECDHE has only a
+							small overhead.
+						</p>
+
+						<p>
+							The maths is different, but the approach is the
+							same. Instead of the finite field being a prime number
+							of integers, its a set of points on a algebraic curve
+							known as an eliptic curve.
+						</p>
+
+						<p>
+							The shared parameters are those of the curve. The
+							secrets are some integers. The public values are
+							computed by performing the scalar multiplication of a
+							particular point on the curve, known as the generator,
+							by the secrets.
+						</p>
+
+						<p>
+							These public points are then exchanged, and then each
+							party does another scalar multiplication with their secret
+							integer. The resulting point is the shared secret.
+						</p>
+
+						<p>
+							This isn't much more complicated that diffie hellman as
+							previously discussed, the main difficulty is defining
+							how to do scalar multiplication over points on an
+							eliptic curve.
+						</p>
+
+						<p>
+							Hopefully, whenever you have doubts about how TLS
+							actually even works, especially how you can get forward
+							secrecy, you might remember enough of how Diffie Hellman
+							works that you can convince yourself once more that it
+							actually might work.
+						</p>
+
+						<ul>
+							<li>https://blog.twitter.com/2013/forward-secrecy-at-twitter-0</li>
+							<li>https://blog.cloudflare.com/ecdsa-the-digital-signature-algorithm-of-a-better-internet/</li>
+						</ul>
 					</aside>
 				</section>
 
-				<section data-background-image="images/screenshot_slide_background.png">
+				<section class="heading" data-background-color="#0076c0">
+					<h1>Authenticity</h1>
+				</section>
+
+				<section>
+					<h3>TLS 1.2 Full Handshake</h3>
+					<pre style="border-left: 0;">
+Client                                               Server
+
+ClientHello                  --------&gt;
+                                                ServerHello
+                                               <strong>Certificate*</strong>
+                                         ServerKeyExchange*
+                                        CertificateRequest*
+                             &lt;--------        ServerHelloDone
+Certificate*
+ClientKeyExchange
+CertificateVerify*
+[ChangeCipherSpec]
+Finished                     --------&gt;
+                                         [ChangeCipherSpec]
+                             &lt;--------               Finished
+Application Data             &lt;-------&gt;     Application Data
+
+* Indicates optional or situation-dependent messages that
+  are not always sent.</pre>
+
+					<a style="float: right;"
+						 href="https://tools.ietf.org/html/rfc5246#page-36">
+						RFC 5246
+					</a>
+
 					<aside class="notes">
-						Screenshots should look like this.
+						<p>
+							For server authentication, the client uses the server's
+							public key to encrypt the data that is used to compute
+							the secret key. The server can generate the secret key
+							only if it can decrypt that data with the correct
+							private key.
+						</p>
+
+						<p>
+							As well as encrypting the data used to compute the
+							secret key, the client will hopefully check that it
+							trusts the certificate.
+						</p>
+
+						<p>
+							There is a number of things that can be checked here,
+							ideally you want to check that the certificates involved
+							haven't expired or been revoked, and that you can
+							establish a trust chain from the certificate you are
+							using to one that you trust.
+						</p>
+
+						<p>
+							The trusted root certificates are normally selected by the
+							operating system, or web browser.
+						</p>
 					</aside>
 				</section>
 
-				<section data-background-image="images/annotated_screenshot.png"
-								 data-background-repeat="no-repeat"
-								 data-background-size="16em auto"
-								 data-background-position="right 2em top">
-					<p style="width: 10em;">
-						This is how to annotate a screenshot
-					</p>
+				<section>
+					<h1>HTTP Strict Transport Security (HSTS)</h1>
+
+					<pre>Strict-Transport-Security: max-age=31536000</pre>
+					<pre>Strict-Transport-Security: max-age=31536000; includeSubDomains</pre>
+					<pre>Strict-Transport-Security: max-age=31536000; includeSubDomains;
+preload</pre>
 
 					<aside class="notes">
-						Annotated screenshots should look like this.
+						<ul>
+							<li>
+								HTTP Strict Transport Security (abbreviated to HSTS)
+								is an opt in security enhancement.
+							</li>
+							<li>
+								The Strict-Transport-Security response header tells a
+								web browser that the site should only be communicated
+								with over HTTPS.
+							</li>
+							<li>
+								Using this header can mitigate some MITM attacks, given certain conditions
+
+								<ul>
+									<li>
+										Those connecting to a website that supports HTTPS
+										may initially connect over HTTP.
+									</li>
+									<li>
+										This initial insecure connection can allow an
+										attacker to take control, e.g by redirecting you
+										to a fake site instead.
+									</li>
+									<li>
+										HSTS can help prevent this, as it allows sites to
+										say that connections should always be made over
+										HTTPS, so only the very first connection to the
+										site is vulnerable.
+									</li>
+									<li>
+										In addition to this, many browsers support a
+										"preload" list. This contains the HSTS information
+										for many sites, but in the browser itself, meaning
+										that the initial connections to these sites don't
+										have to be made over HTTP, as the browser already
+										knows that all connections should be made over
+										HTTPS.
+									</li>
+								</ul>
+							</li>
+						</ul>
+
+						<p>
+							Sources:
+						</p>
+						<ol>
+							<li>
+								<a href="https://www.owasp.org/index.php/HTTP_Strict_Transport_Security_Cheat_Sheet">
+									https://www.owasp.org/index.php/HTTP_Strict_Transport_Security_Cheat_Sheet
+								</a>
+							</li>
+							<li>
+								<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security">
+									https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
+								</a>
+							</li>
+							<li>
+								<a href="https://scotthelme.co.uk/using-security-features-to-do-bad-things/">
+									https://scotthelme.co.uk/using-security-features-to-do-bad-things/
+								</a>
+							</li>
+							<li>
+								<a href="https://news.netcraft.com/archives/2016/03/17/95-of-https-servers-vulnerable-to-trivial-mitm-attacks.html">
+									https://news.netcraft.com/archives/2016/03/17/95-of-https-servers-vulnerable-to-trivial-mitm-attacks.html
+								</a>
+							</li>
+						</ol>
 					</aside>
+				</section>
+
+				<section class="heading" data-background-color="#0076c0">
+					<h1>The Future</h1>
+					<h1>TLS 1.3</h1>
+				</section>
+
+				<section>
+					<h3>TLS 1.3 Handshake</h3>
+
+					<pre style="border-left: 0;">
+Client                                               Server
+
+<span class="fragment fade-down">ClientHello
++ key_share               --------&gt;</span>
+                                                <span class="fragment fade-down">ServerHello
+                                                + key_share
+                                      {EncryptedExtensions}
+                                      {CertificateRequest*}
+                                             {Certificate*}
+                                       {CertificateVerify*}
+                                                 {Finished}
+                          &lt;--------     [Application Data*]</span>
+<span class="fragment fade-down">{Certificate*}
+{CertificateVerify*}
+{Finished}                --------&gt;</span>
+                          <span class="fragment fade-down">&lt;--------        [NewSessionTicket]</span>
+<span class="fragment fade-down">[Application Data]        &lt;-------&gt;      [Application Data]</span>
+					</pre>
+
+					<a style="float: right;" href="https://tools.ietf.org/html/draft-ietf-tls-tls13-20#page-21">
+						Draft TLS 1.3 Spec
+					</a>
+
+				</section>
+
+				<section>
+					<h3>TLSv1.3 0-RTT Resumption</h3>
+
+					<pre style="border-left: 0px;">
+Client                                               Server
+
+<span class="fragment fade-down">ClientHello
++ early_data
++ key_share*
++ psk_key_exchange_modes
++ pre_shared_key
+(Application Data*)     --------&gt;</span>
+                                                <span class="fragment fade-down">ServerHello
+                                           + pre_shared_key
+                                               + key_share*
+                                      {EncryptedExtensions}
+                                              + early_data*
+                                                 {Finished}
+                        &lt;--------       [Application Data*]</span>
+<span class="fragment fade-down">(EndOfEarlyData)
+{Finished}              --------&gt;</span>
+
+<span class="fragment fade-down">[Application Data]      &lt;-------&gt;        [Application Data]</span>
+					</pre>
+
+					<a style="float: right;" href="https://tools.ietf.org/html/draft-ietf-tls-tls13-20#page-23">
+						Draft TLS 1.3 Spec
+					</a>
+
+					<aside class="notes">
+						<ul>
+						</ul>
+
+						<p>
+							Sources:
+						</p>
+						<ol>
+							<li>
+								<a href="https://blog.cloudflare.com/tls-1-3-overview-and-q-and-a/">
+									https://blog.cloudflare.com/tls-1-3-overview-and-q-and-a/
+								</a>
+							</li>
+							<li>
+								<a href="https://blog.cloudflare.com/introducing-0-rtt/">
+									https://blog.cloudflare.com/introducing-0-rtt/
+								</a>
+							</li>
+						</ol>
+					</aside>
+				</section>
+
+				<section>
+					<h2>An overall view of HTTP and security</h2>
+					<dl>
+						<dt>Mathematical Problems</dt>
+						<dd>Factoring, Discrete log</dd>
+
+						<dt>Cryptographic Primitives</dt>
+						<dd>RSA, Diffie-Hellman, DSA, AES, SHA-1, ...</dd>
+
+						<dt>Protocols</dt>
+						<dd>TLS, ...</dd>
+
+						<dt>Library Implementations</dt>
+						<dd>OpenSSL, GnuTLS, ...</dd>
+
+						<dt>Software Applications</dt>
+						<dd>Firefox, Chromium, Apache, NGinx, ...</dd>
+					</dl>
+				</section>
+
+				<section data-background-size="contain"
+								 data-background-image="https://cdn.netzpolitik.org/wp-upload/tumblr_n0g1swMjHo1trt7ryo1_500.jpg">
 				</section>
 
 				<section class="outro"
-								 data-background-image="images/cabinet-office-logo.png"
-								 data-background-repeat="no-repeat"
-								 data-background-size="auto auto"
-								 data-background-position="1.8em 3.2em">
-					<p><strong>Full Name</strong></p> <!-- TODO: Fill in name -->
+								data-background-image="images/cabinet-office-logo.png"
+								data-background-repeat="no-repeat"
+								data-background-size="auto auto"
+								data-background-position="1.8em 3.2em">
+					<p><strong>Christopher Baines</strong></p>
 					<p>Government Digital Service</p>
 				</section>
 
@@ -125,10 +1205,17 @@
 				transition: 'none', // none/fade/slide/convex/concave/zoom
 				backgroundTransition: 'none',
 
+				math: {
+						mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+						config: 'TeX-AMS_HTML-full'	 // See http://docs.mathjax.org/en/latest/config-files.html
+				},
+
 				// More info https://github.com/hakimel/reveal.js#dependencies
 				dependencies: [
 					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
 					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/math/math.js', async: true },
 				]
 			});
 		</script>
